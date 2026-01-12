@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Терези Версалю: 1919</title> 
+    <style>
+        :root {
+            --bg-color: #f4e4bc;
+            --card-color: #fffbf0;
+            --text-color: #2c1e12;
+            --accent-red: #8b0000;
+            --accent-green: #2e8b57;
+            --btn-hover: #e6d2a0;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: radial-gradient(#d3c7a2 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        #game-container {
+            width: 90%;
+            max-width: 600px;
+            background: var(--card-color);
+            padding: 20px;
+            border: 2px solid var(--text-color);
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        h1, h2 {
+            text-align: center;
+            text-transform: uppercase;
+            border-bottom: 2px double var(--text-color);
+            padding-bottom: 10px;
+        }
+#title-screen {
+	position: relative;    
+	text-align: center;
+    	padding: 60px 20px;
+	overflow: hidden;
+animation: fadeInUp 1s ease-out forwards;
+}
+#title-screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #e6d2a0;
+    opacity: 0.35;   /* мʼяко, елегантно */
+    z-index: 0;
+}
+
+
+#title-screen * {
+    position: relative;
+    z-index: 1;
+    color: #000;
+}
+
+.title-image {
+    max-width: 90%;
+    height: auto;
+    margin: 20px auto;
+    display: block;
+    border-radius: 6px;
+    opacity: 0.95;
+}
+
+.game-title {
+    font-size: 2em;
+    margin-bottom: 10px;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.4);
+}
+
+
+.subtitle {
+    font-size: 1em;
+    opacity: 0.8;
+    margin-bottom: 25px;
+}
+
+/* якщо додаси зображення */
+.title-image {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+    opacity: 0.9;
+}
+
+        /* Stats Bars */
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .stat-box {
+            width: 45%;
+        }
+
+        .progress-bar {
+            height: 15px;
+            background: #ddd;
+            border: 1px solid #000;
+            margin-top: 5px;
+            position: relative;
+        }
+
+        .fill {
+            height: 100%;
+width: 20%;
+            transition: width 0.5s ease;
+        }
+
+        #revenge-fill { background-color: var(--accent-red); }
+        #peace-fill { background-color: var(--accent-green); }
+
+        /* Card Styles */
+        #card-area {
+            text-align: center;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #question-text {
+            font-size: 1.2em;
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+
+        .choices {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            background: transparent;
+            border: 2px solid var(--text-color);
+            padding: 10px 20px;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1em;
+            flex: 1;
+        }
+.start-btn {
+    display: block;          /* дозволяє margin auto */
+    margin: 30px auto 0;     /* по центру + відступ зверху */
+    padding: 10px 22px;
+    font-size: 1em;
+    text-align: center;
+}
+
+        button:hover {
+            background-color: var(--btn-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Modal / Overlay */
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(44, 30, 18, 0.95);
+            color: #fff;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        #overlay h3 {
+            color: #ffcc00;
+            margin-top: 0;
+        }
+
+        #overlay-content {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .fact-box {
+            background: #fff;
+            color: #000;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            border-left: 5px solid var(--accent-red);
+            text-align: left;
+            font-style: italic;
+margin-bottom: 15px; /* повітря між довідкою і кнопкою */
+        }
+
+        #next-btn {
+            background: #ffcc00;
+            color: #000;
+            border: none;
+        }
+
+        /* Hidden class */
+        .hidden { display: none !important; }
+   
+#final-stats {
+    margin-top: 15px;
+    font-size: 0.85em;       /* зменшує ВСЕ всередині */
+    opacity: 0.85;           /* робить менш навʼязливим */
+text-align: center;
+margin-bottom: 20px;
+}
+
+#final-stats h3 {
+    font-size: 1em;          /* не збільшуємо заголовок */
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+#final-stats .progress-bar {
+    height: 8px;             /* тонші шкали */
+}
+#final-stats {
+    margin-top: 15px;
+    font-size: 0.85em;
+    opacity: 0.85;
+    text-align: center;
+display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* контейнер для ОБОХ шкал */
+#final-stats .final-bars {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+}
+#final-stats .final-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+text-align: left;
+}
+
+/* підпис */
+#final-stats .final-bar span {
+display: block;
+    margin-bottom: 4px;
+    font-size: 0.9em;
+}
+
+/* сама шкала */
+#final-stats .progress-bar {
+    width: 100%;
+    height: 8px;
+}
+#final-stats .final-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap; /* ❗ забороняє перенос */
+    text-align: left;
+	margin-bottom: 4px;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+ </style>
+</head>
+<body>
+
+<div id="game-container">
+<div id="title-screen">
+    <h1 class="game-title">Терези Версалю: 1919</h1>
+    <p class="subtitle">Історична гра про вибір, відповідальність і наслідки</p>
+
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/96/William_Orpen_%E2%80%93_The_Signing_of_Peace_in_the_Hall_of_Mirrors%2C_Versailles_1919%2C_Ausschnitt.jpg"
+         alt="Підписання Версальського договору"
+         class="title-image">
+
+    <button class="start-btn" onclick="goToStart()">Почати</button>
+</div>
+   
+ <div id="start-screen" class="hidden">
+        <h1>Париж, 1919</h1>
+        <p>Ви — учасник Мирної конференції. Після Першої світової війни Європа лежить у руїнах.</p>
+        <p>Ваше завдання: розробити мирний договір з Німеччиною,
+	балансуючи між вимогою <b>Помсти</b> (щоб задовольнити переможців) та необхідністю <b>Миру</b> (щоб Німеччина не почала нову війну).</p>
+        <p><i>Будьте обережні: історія не пробачає крайнощів. Вам потрібно не зірвати переговори та дійти до фіналу.</i></p>
+        <button class="start-btn" onclick="startGame()">Розпочати переговори</button>
+    </div>
+
+    <div id="game-screen" class="hidden">
+        <div class="stats-container">
+            <div class="stat-box">
+                <div>🇫🇷 Помста / Вимоги союзників</div>
+                <div class="progress-bar"><div id="revenge-fill" class="fill"></div></div>
+            </div>
+            <div class="stat-box">
+                <div>🕊️ Стабільність / Майбутній Мир</div>
+                <div class="progress-bar"><div id="peace-fill" class="fill"></div></div>
+            </div>
+        </div>
+
+        <div id="card-area">
+            <h2 id="card-title">Тема</h2>
+            <p id="question-text">Опис проблеми...</p>
+            <div class="choices">
+                <button id="btn-left" onclick="makeChoice('left')">Варіант А</button>
+                <button id="btn-right" onclick="makeChoice('right')">Варіант Б</button>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 15px; font-size: 0.8em; opacity: 0.7;">
+            Картка <span id="card-counter"></span> з <span id="total-cards"></span>
+        </div>
+    </div>
+
+    <div id="overlay">
+        <h3 id="overlay-title">Результат</h3>
+        <div id="overlay-content">Текст результату</div>
+<div id="final-stats" class="hidden">
+    <div style="margin-bottom: 5px;"><b>Ваш баланс рішень:</b></div>
+<div class="final-bars">
+    <div class="final-bar">
+        <span class="final-label">🟥 Помста</span>
+        <div class="progress-bar">
+            <div id="final-revenge" class="fill"></div>
+        </div>
+    </div>
+
+    <div class="final-bar">
+        <span class="final-label">🟩 Мир</span>
+        <div class="progress-bar">
+            <div id="final-peace" class="fill"></div>
+        </div>
+    </div>
+</div>
+</div>
+        <div id="fact-box" class="fact-box">Історична довідка...</div>
+        <button id="next-btn" onclick="nextCard()">Далі</button>
+    </div>
+</div>
+
+<script>
+    // Game Data
+    const scenarios = [
+        {
+            title: "Стаття 231: Провина",
+            question: "Хто винен у початку Великої війни? Союзники вимагають визнати єдиним винуватцем Німеччину.",
+            left: { text: "Так, Німеччина винна у всьому!", revenge: 10, peace: -5 },
+            right: { text: "Ні, винні всі імперії", revenge: -10, peace: 5 },
+            history: "В реальності: Стаття 231 (War Guilt Clause) поклала всю відповідальність на Німеччину. Це стало національним приниженням для німців і посилило прагнення реваншу."
+        },
+        {
+            title: "Репарації",
+            question: "Франція та Бельгія зруйновані. Хто заплатить за відбудову?",
+            left: { text: "Німеччина мусить заплатити за все у повному розмірі", revenge: 10, peace: -5 },
+            right: { text: "Німеччина сплатить лише посильну суму", revenge: -10, peace: 10 },
+            history: "В реальності: Була встановлена астрономічна сума у 226 мільярдів марок (у 1921 році знижена до 132 млрд). Це зруйнувало економіку Німеччини і призвело до гіперінфляції."
+        },
+        {
+            title: "Рейнська зона",
+            question: "Франція боїться нового нападу і хоче анексувати землі на лівому березі Рейну.",
+            left: { text: "Віддати ці землі Франції", revenge: 10, peace: -10 },
+            right: { text: "Залишити Німеччині, але демілітаризувати", revenge: -5, peace: 10 },
+            history: "В реальності: Компроміс. Територія залишилась німецькою, але була демілітаризована. У цій зоні Німеччині заборонялося розміщувати війська, зводити військові укріплення, проводити маневри тощо."
+        },
+        {
+            title: "Військова міць",
+            question: "Що робити з німецькою армією (Рейхсвером)?",
+            left: { text: "Знищити майже повністю", revenge: 10, peace: -5 },
+            right: { text: "Обмежити, але залишити для підтримки порядку всередині країни", revenge: -10, peace: 10 },
+            history: "В реальності: Армію скоротили до 100 000 вояків. Заборонили артилерію, танки, військову авіацію, авіаносці та підводні човни. Це образило військові еліти Німеччини."
+        },
+	{
+            title: "Австрія",
+            question: "Чи дозволити Австрії об'єднатися з Німеччиною?",
+            left: { text: "Суворо заборонити", revenge: 5, peace: -5 },
+            right: { text: "Дозволити союз за волею населення", revenge: -10, peace: 10 },
+            history: "В реальності: Договір суворо заборонив об'єднання Австрії та Німеччини без згоди Ліги Націй. У березні 1938 року Нацистська Німеччина грубо порушила цю умову договору, захопивши Австрію."
+        },
+        {
+            title: "Польське питання",
+            question: "Відродженій Польщі потрібен вихід до моря, але там живуть німці. Яке діяти?",
+            left: { text: "Створити «Польський коридор» до моря через німецькі землі", revenge: 5, peace: -10 },
+            right: { text: "Залишити Польщу без виходу до моря", revenge: -10, peace: 5 },
+            history: "В реальності: Німеччину розрізали надвоє «Польським коридором», відокремивши від неї Східну Пруссію. Місто Данциг (Ґданськ) стало вільним містом під контролем Ліги Націй."
+        },
+        {
+            title: "Японські претензії",
+            question: "Японія хоче отримати колишні німецькі колонії в Китаї (Шаньдун), тоді як Китай наполягає на їх поверненні йому. Яке рішення ухвалити?",
+            left: { text: "Віддати Японії", revenge: 5, peace: -10 },
+            right: { text: "Повернути Китаю", revenge: -5, peace: 5 },
+            history: "В реальності: Усі німецькі колонії були розділені між державами-переможцями. Рішення віддати Шаньдун Японії викликало масові протести в Китаї («Рух 4 травня»), а китайський уряд не підписав Версальський договір."
+        },
+	{
+            title: "Ліга Націй",
+            question: "Вудро Вільсон пропонує створити організацію для досягнення миру і безпеки між народами. Чи запрошувати Німеччину?",
+            left: { text: "Створити, але без Німеччини", revenge: 10, peace: -5 },
+            right: { text: "Запросити Німеччину одразу", revenge: -5, peace: 5 },
+            history: "В реальності: Лігу Націй створили, але переможену Німеччину туди не пустили (до 1926 року). Це зробило Лігу «клубом переможців»."
+        },
+	{
+    title: "Голос переможених",
+    question: "Чи дозволити Німеччині брати участь в обговоренні умов мирного договору?",
+    left: { text: "Ні, лише підписати готовий текст", revenge: 10, peace: -10 },
+    right: { text: "Так, вислухати аргументи", revenge: -10, peace: 10 },
+    history: "В реальності: Німецьку делегацію не допустили до переговорів. Лише у травні 1919 року німців викликали до Версаля і просто вручили готовий проєкт договору, що складався з 440 статей."
+	},
+	{
+    title: "Німецький протест",
+    question: "Німецька делегація відмовляється підписувати договір, називаючи його принизливим. Як діяти?",
+    left: { text: "Погрожувати відновленням війни", revenge: 5, peace: -10 },
+    right: { text: "Дозволити символічні поступки", revenge: -10, peace: 10 },
+    history: "В реальності: Німеччину змусили підписати договір під загрозою відновлення бойових дій. Це породило міф про «удар у спину», який звинувачував у поразці не армію, а політичних опонентів всередині країни."
+	},
+	{
+    title: "Підписання договору",
+    question: "Де має відбутися підписання мирного договору?",
+    left: { text: "У Версалі, як символ перемоги та реваншу", revenge: 10, peace: -10 },
+    right: { text: "На нейтральній території", revenge: -10, peace: 10 },
+    history: "В реальності: Договір підписали у Дзеркальній залі Версальського палацу — там само, де в 1871 році було проголошено Німецьку імперію. Це символічне місце підкреслювало приниження Німеччини."
+	}
+    ];
+
+    // Game State
+    let currentCardIndex = 0;
+    let stats = {
+        revenge: 20, // 0 - soft, 100 - too harsh
+        peace: 20    // 0 - chaos/war, 100 - strong stable germany
+    };
+    let isGameOver = false;
+	let warningShownAlready = false;
+let warningCount = 0;
+
+    // Elements
+    const elStart = document.getElementById('start-screen');
+    const elGame = document.getElementById('game-screen');
+    const elOverlay = document.getElementById('overlay');
+    const elRevenge = document.getElementById('revenge-fill');
+    const elPeace = document.getElementById('peace-fill');
+    
+    // UI Update functions
+function goToStart() {
+    document.getElementById('title-screen').classList.add('hidden');
+    document.getElementById('start-screen').classList.remove('hidden');
+}
+    
+function startGame() {
+console.log("startGame called");        
+elStart.classList.add('hidden');
+        elGame.classList.remove('hidden');
+        currentCardIndex = 0;
+        stats.revenge = 20;
+        stats.peace = 20;
+        isGameOver = false;
+	updateUI();
+    loadCard();
+    }
+
+    function updateUI() {
+        // Clamp values between 0 and 100
+        if(stats.revenge > 100) stats.revenge = 100;
+        if(stats.revenge < 0) stats.revenge = 0;
+        if(stats.peace > 100) stats.peace = 100;
+        if(stats.peace < 0) stats.peace = 0;
+
+        elRevenge.style.width = stats.revenge + '%';
+        elPeace.style.width = stats.peace + '%';
+        
+        document.getElementById('card-counter').innerText = currentCardIndex + 1;
+        document.getElementById('total-cards').innerText = scenarios.length;
+    }
+
+    function loadCard() {
+      
+if (currentCardIndex >= scenarios.length) {
+            endGame();
+            return;
+        }
+
+        const card = scenarios[currentCardIndex];
+        document.getElementById('card-title').innerText = card.title;
+        document.getElementById('question-text').innerText = card.question;
+        document.getElementById('btn-left').innerText = card.left.text;
+        document.getElementById('btn-right').innerText = card.right.text;
+    document.getElementById('card-counter').innerText = currentCardIndex + 1;
+    document.getElementById('total-cards').innerText = scenarios.length;
+}
+
+    function makeChoice(side) {
+    if (isGameOver) return;
+
+    const card = scenarios[currentCardIndex];
+    const choice = card[side];
+
+       stats.revenge += choice.revenge;
+    stats.peace += choice.peace;
+    
+    stats.revenge = Math.max(0, Math.min(100, stats.revenge));
+    stats.peace = Math.max(0, Math.min(100, stats.peace));
+    updateUI();
+
+    const warningShown = checkExtremeNarratives();
+
+        if (warningShown) return;
+        showFeedback(choice, card.history);
+
+currentCardIndex++;
+
+    if (currentCardIndex >= scenarios.length) {
+        endGame();
+    return;
+    }
+}
+    function showFeedback(choice, historyText) {
+        elOverlay.style.display = 'flex';
+        document.getElementById('overlay-title').innerText = "Рішення прийнято";
+        document.getElementById('overlay-content').innerHTML = 
+            `Ваш вибір змінив баланс:<br>
+            Помста: ${choice.revenge > 0 ? '+' : ''}${choice.revenge}<br>
+            Мир: ${choice.peace > 0 ? '+' : ''}${choice.peace}`;
+        
+        const factBox = document.getElementById('fact-box');
+        factBox.classList.remove('hidden');
+        factBox.innerText = historyText;
+
+        document.getElementById('next-btn').innerText = "Наступне питання";
+        document.getElementById('next-btn').onclick = nextCard;
+    }
+
+    function nextCard() {
+    elOverlay.style.display = 'none';
+    loadCard();
+    if (currentCardIndex >= scenarios.length) {
+        endGame();
+        return;
+    }
+
+    
+}
+
+function showWarning(text) {
+    elOverlay.style.display = 'flex';
+    document.getElementById('overlay-title').innerText = "⚠️ Попередження";
+    document.getElementById('overlay-content').innerText = text;
+    document.getElementById('fact-box').classList.add('hidden');
+}
+
+    function checkConditions() {
+    stats.revenge = Math.max(0, Math.min(100, stats.revenge));
+    stats.peace = Math.max(0, Math.min(100, stats.peace));
+}
+
+function checkExtremeNarratives() {
+
+    // 🔴 Крайня помста
+    if (stats.revenge >= 80) {
+        warningCount++;
+
+        if (warningCount >= 3) {
+            collapseNegotiations("revenge");
+            return true;
+        }
+
+        showWarning("⚠️ Політика помсти стає небезпечно радикальною.");
+        return true;
+    }
+
+    // 🟢 Надмірний мир
+    if (stats.peace >= 80) {
+        warningCount++;
+
+        if (warningCount >= 3) {
+            collapseNegotiations("peace");
+            return true;
+        }
+
+        showWarning(
+            "⚠️ Мирні поступки стають надмірними та викликають невдоволення союзників."
+        );
+        return true;
+    }
+
+    return false;
+}
+
+function collapseNegotiations(reason) {
+    isGameOver = true;
+
+    elOverlay.style.display = 'flex';
+    document.getElementById('fact-box').classList.add('hidden');
+
+    let title = "💥 Переговори зірвалися";
+    let text = "";
+
+    if (reason === "revenge") {
+        text =
+            "Надмірна політика помсти зруйнувала можливість компромісу.<br><br>" +
+            "Переможці вимагали занадто багато, а переможені втратили будь-яку готовність співпрацювати.";
+    } else {
+        text =
+            "Надмірні поступки підірвали довіру союзників.<br><br>" +
+            "Мир став політично неприйнятним для сторін, які заплатили за війну найбільшу ціну.";
+    }
+
+    document.getElementById('overlay-title').innerText = title;
+    document.getElementById('overlay-title').style.color = "#ff4444";
+    document.getElementById('overlay-content').innerHTML = text;
+showFinalStats();
+
+    const btn = document.getElementById('next-btn');
+    
+btn.innerText = "Почати знову";
+    btn.onclick = () => location.reload();
+}
+
+function showFinalStats() {
+    const finalStats = document.getElementById('final-stats');
+    finalStats.classList.remove('hidden');
+
+    document.getElementById('final-revenge').style.width = stats.revenge + "%";
+    document.getElementById('final-revenge').style.backgroundColor = "var(--accent-red)";
+
+    document.getElementById('final-peace').style.width = stats.peace + "%";
+    document.getElementById('final-peace').style.backgroundColor = "var(--accent-green)";
+}
+
+    function endGame() {
+    isGameOver = true;
+	
+	elOverlay.style.display = 'flex';
+    document.getElementById('fact-box').classList.add('hidden');
+
+    let title = "";
+    let text = "";
+showFinalStats();
+
+    // 🕊️ ІСТОРИЧНИЙ ФІНАЛ
+    if (
+        stats.revenge >= 55 && stats.revenge <= 85 &&
+        stats.peace >= -100 && stats.peace <= 20
+    ) {
+        title = "🕊️ ІСТОРИЧНИЙ ФІНАЛ";
+        text =
+            "Версальський мирний договір підписано.<br><br>" +
+            "Він суперечливий і нестабільний, але війна завершена. <br>" +
+            "Багато хто вже називає його «перемир’ям лише на 20 років». <br><br>" +
+	"<small><em>Саме в такому форматі мирний договір був підписаний у 1919 році.</em></small>";
+
+    // 🌍 АЛЬТЕРНАТИВНИЙ ФІНАЛ
+    } else if (stats.peace >= stats.revenge) {
+        title = "🌍 АЛЬТЕРНАТИВНИЙ ФІНАЛ";
+        text =
+            "Мир виявився м’якшим і далекогляднішим.<br>" +
+            "Німеччина інтегрується в європейську систему без прагнення реваншу. " +
+            "Є шанс, що нової великої війни вдасться уникнути.<br><br>" +
+	"<small><em>Але це альтернативний сценарій. В реальній історії такі умови миру ухвалені не були.</em></small>";
+
+    // ☠️ КАТАСТРОФІЧНИЙ ФІНАЛ
+    } else {
+        title = "☠️ КАТАСТРОФІЧНИЙ ФІНАЛ";
+        text =
+            "Мирний договір підписано, але він став джерелом майбутньої катастрофи.<br>" +
+            "Приниження, економічний тиск і політична нестабільність лише відкладають нову війну.<br><br>" +
+        "<small><em>Але це не реальний фінал, а лише модель наслідків радикальних рішень.</em></small><br>" +
+	" <small><em>Подумайте, яке рішення стало ключовим у цьому сценарії.</em></small>";
+    }
+
+    document.getElementById('overlay-title').innerText = title;
+    document.getElementById('overlay-title').style.color = "#ffcc00";
+    document.getElementById('overlay-content').innerHTML = text;
+
+    const btn = document.getElementById('next-btn');
+    btn.innerText = "Спробувати ще раз";
+    btn.onclick = () => location.reload();
+}
+
+</script>
+
+</body>
+</html>
